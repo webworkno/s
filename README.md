@@ -1,90 +1,51 @@
+## DBsubject(Calculus - single variable)
+## DBchapter(Differentiation)
+## DBsection(Chain rule (without trigonometric functions))
+## Institution(UCSB)
+## Level(5)
+## Static(1)
+## TitleText1('Calculus: Early Transcendentals')
+## AuthorText1('Stewart')
+## EditionText1('5')
+## Section1('3.5')
+## Problem1('70')
+## KEYWORDS('Differentiation','Product','Quotient')
+
 DOCUMENT();
 
-# Load whatever macros you need for the problem
-loadMacros("PG.pl",
-           "PGbasicmacros.pl",
-           "PGchoicemacros.pl",
-           "PGanswermacros.pl",
-           "PGauxiliaryFunctions.pl",
-           "PGgraphmacros.pl",
-          );
-loadMacros("freemanMacros.pl");
-loadMacros("Parser.pl");
+loadMacros(
+"PG.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"PGanswermacros.pl",
+"PGauxiliaryFunctions.pl"
+);
 
-## DBsubject(Calculus - single variable)
-## DBchapter(Applications of differentiation)
-## DBsection(Linear approximation and differentials)
-## Institution(W.H.Freeman)
-## Author(JustAsk!)
-## Level(4)
-## MO(1)
-## TitleText1('Calculus: Early Transcendentals')
-## AuthorText1('Rogawski')
-## EditionText1('2')
-## Section1('4.1')
-## Problem1('20')
-## KEYWORDS('calculus', 'derivatives', 'linear approximation')
- 
-## Show partial correct answers
+TEXT(&beginproblem);
 $showPartialCorrectAnswers = 1;
-
-TEXT(beginproblem());
-
-$var1=random(95, 100, 1);
-$var2=calc_var2($var1);
-
-sub calc_var2{
-	my $x = shift;
-	my $var2=random(95, 100, 1);
-	
-	while ($var2 == $x)
-	{
-		$var2=random(95, 100, 1);
-	}
-
-	return $var2;
-}
-
-$a=Real($var2);
-$deltax=Real(($var1)-($var2));
-
-$s_ans1=Real((- 1/2) * (($var2)**(- 3/2)));
-$ans1=Real(($s_ans1) * ($deltax));
-$a_change=Real(1/sqrt($var1) - 1/sqrt($var2));
-$ans2=Real(abs(($a_change) - ($ans1)));
+$a=random(1,10,1)*random(-1,1,2);
+$b=random(1,10,1)*random(-1,1,2);
+$c=random(1,10,1)*random(-1,1,2);
 
 BEGIN_TEXT
-\{ textbook_ref_exact("Rogawski ET 2e", "4.1","20") \}$BR
-Estimate the quantity using Linear Approximation and find the error using a calculator. $BR
-
-\[ \frac{1}{\sqrt{$var1}} - \frac{1}{\sqrt{$var2}} \]
 
 $PAR
 
-The Linear Approximation is: \(\Delta{f} \approx \) \{ans_rule()\} $BR
+Under certain circumstances, a rumor spreads according to the equation \(\displaystyle p(t)=\frac{1}{1+ae^{-kt}}\) where \(p(t)\) is the proportion of the population that knows the rumor at time \(t\), and \(a\) and \(k\) are positive constants. $BR
+(a) Find \(\displaystyle\lim_{t \to \infty}p(t)\). $BR
+(b) Find the rate of speed of the rumor. $BR
+(c) How long will it take for 80$PERCENT of the population to hear the rumor? Here, take \(a=10, \; k=0.5\) with \(t\) measured in hours.
 
+$PAR
 
-The error in Linear Approximation is: \{ans_rule()\} $BR
+(a) limit \(=\) \{ans_rule(10)\} $BR
+(b) \(p'(t)=\) \{ans_rule(30)\} $BR
+(c) \{ans_rule(10)\} hours
 
 END_TEXT
-ANS($ans1->cmp);
-ANS($ans2->cmp);
 
-###################################################################
-
-$a32=Real($a**(3/2));
-
-SOLUTION(EV3(<<'END_SOLUTION'));
-$BR$BBOLD Solution:$EBOLD 
-$PAR
-Let \(f(x)=\frac{1}{\sqrt x}\),  \(a=$a\)  and \({\Delta}x= $deltax\).  Then \(f'(x)=\frac{d}{dx}(x^{-1/2})= - \frac{1}{2}x^{-3/2}\)  and
-\[f'(a)=f'($a)=- \frac{1}{2} (\frac{1}{$a32})=$s_ans1\] $PAR
-The Linear Approximation is: \({\Delta}f \approx f'(a){\Delta}x = {$s_ans1}($deltax) = $ans1\) $BR
-
-The actual change is: \({\Delta}f=f(a+{\Delta}x)-f(a)=f($var1)-f($a)=$a_change\) $BR
-The error is: \(|f(a+{\Delta}x)-f(a)-f'(a){\Delta}x| \approx $ans2\) $BR
-
-END_SOLUTION
-###################################################################
+ANS(num_cmp(1));
+ANS(fun_cmp("a k e^(-kt)/(1+a e^(-kt))^2", var=>["a", "k", "t"]));
+ANS(num_cmp(ln(1600)));
 
 ENDDOCUMENT();
