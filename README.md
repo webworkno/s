@@ -8,13 +8,21 @@
 ## DBchapter(Applications of differentiation)
 ## DBsection(Concavity and points of inflection)
 ## Date(8/23/07)
-## Institution(Union College)
+## Institution(ASU)
 ## Author(K. Lesh)
-## MLT(Concavity_linear_rational)
-## MLTleader(1)
 ## Level(4)
 ## MO(1)
-## KEYWORDS('calculus','concavity','inflection')
+## TitleText1('Calculus: Early Transcendentals')
+## AuthorText1('Stewart')
+## EditionText1('5e')
+## Section1('4.3')
+## Problem1('')
+## TitleText2('Calculus: Early Transcendentals')
+## AuthorText2('Stewart')
+## EditionText2('6')
+## Section2('4.3')
+## Problem2('')
+## KEYWORDS('calculus','concavity','inflection','derivative','inflection point','differentiation', 'second derivative', 'inflection point')
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
@@ -31,15 +39,17 @@ TEXT(beginproblem());
 ###################################
 # Setup
 
-$a = 5;
-$b = 7;
-$c = 4;
+$a = 6;
+$b = 2;
 
-$f=Formula("{$a x - $b} / {x + $c}   ")->reduce;
+$f=Formula(" {1}/{$a x^2+$b}  ")->reduce;
 
-$ccup=List(Interval(     "(-infinity,-$c)"        ));
-$ccdn=List(Interval(     "(-$c,infinity)"         ));
-$xinflects=List(     'NONE'     );
+$inflection_point1 = -sqrt($b/(3*$a));
+$inflection_point2 = sqrt($b/(3*$a));
+
+$ccup=Compute(     "(-infinity, $inflection_point1) , ($inflection_point2, infinity)"        );
+$ccdn=List(Interval(     "($inflection_point1,$inflection_point2)"         ));
+$xinflects=List(     $inflection_point1, $inflection_point2     );
 
 ###################################
 #  Make an aligned list to present Q and A.
@@ -57,7 +67,7 @@ $al->qa(
 
 Context()->texStrings;
 BEGIN_TEXT
-Let \(\displaystyle f(x) = $f \).  Find the open intervals on which \( f \) is concave up (down).  Then determine the \( x\)-coordinates of all inflection points of \( f\).
+Let \( \displaystyle f(x) = $f \).  Find the open intervals on which \( f \) is concave up (down).  Then determine the \( x\)-coordinates of all inflection points of \( f\).
 $PAR
 \{$al->print_q\}
 $BR
